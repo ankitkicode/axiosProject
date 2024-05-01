@@ -1,4 +1,5 @@
-import axios from "axios";
+import { useEffect } from "react";
+import axios from "./helper/axios";
 import React, { useState } from "react";
 
 const App = () => {
@@ -16,7 +17,7 @@ const buttonStyle = {
   const getUser = async () => {
     try {
       const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
+        "/users"
       );
       setData(response.data);
     } catch (error) {
@@ -24,12 +25,19 @@ const buttonStyle = {
     }
   };
 
+  useEffect(
+    () => {
+      getUser();
+    },[]);
+
   return (
     <div
       style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: "20px",
+       display:"flex",
+       alignItems:"center",
+       justifyContent:"center",
+       flexWrap: "wrap",
+       gap: "30px"
       }}
     >
       {data ? (
@@ -57,12 +65,6 @@ const buttonStyle = {
       ) : (
         <h1>Loading...</h1>
       )}
-      <button
-        onClick={getUser}
-        style={buttonStyle}
-      >
-        Get Users
-      </button>
     </div>
   );
 };
